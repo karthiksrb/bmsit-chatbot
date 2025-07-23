@@ -25,6 +25,15 @@
     .dark .bg-gray-200 { background-color: #444; }
     .dark .text-sm { color: white; }
 
+    /* Bot avatar styling */
+    .bot-avatar-img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+
     .typing-indicator {
       display: flex;
       align-items: center;
@@ -140,7 +149,7 @@
     <!-- Chat messages -->
     <div id="chat-messages" class="p-3 space-y-2 overflow-y-auto h-80 bg-gray-50 dark:bg-gray-900 scroll-smooth">
       <div class="flex items-start space-x-2 message">
-        <img src="assets/bot.png" alt="Bot" class="w-6 h-6 rounded-full" />
+        <img src="assets/bot.png" alt="Bot" class="w-7 h-8 rounded-full object-cover" />
         <div class="bg-blue-100 text-sm p-3 rounded-2xl bot-bubble">
           👋 Hi! I'm your BMSIT Assistant. Ask me anything about the college - courses, admissions, fees, placements, hostel, or campus facilities!
         </div>
@@ -178,6 +187,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="qa-data.js"></script>
-<script src="chatbot.js"></script>
+<script src="chatbot-fixed.js"></script>
 </body>
 </html>
