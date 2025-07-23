@@ -498,71 +498,40 @@ function speak(text) {
 }
 
 function toggleDark() {
-  // Add transition class for smooth theme switching
-  document.body.style.transition = 'background-color 0.5s ease, color 0.5s ease';
-  
   // Toggle dark mode
   document.body.classList.toggle("dark");
   const isDark = document.body.classList.contains("dark");
   
-  // Update toggle switch icons and state
-  const toggleDot = document.querySelector('.toggle-dot');
-  const sunIcon = document.querySelector('.toggle-icon');
-  const moonIcon = document.querySelector('.toggle-icon-dark');
+  // Get toggle elements
+  const toggleBg = document.getElementById('toggle-bg');
+  const toggleDot = document.getElementById('toggle-dot');
+  const toggleInput = document.getElementById('dark-toggle');
   
-  if (toggleDot) {
-    if (isDark) {
-      // Switching to dark mode
-      toggleDot.style.transform = 'translateX(28px) rotate(180deg)';
-      if (sunIcon) sunIcon.style.opacity = '0';
-      if (moonIcon) moonIcon.style.opacity = '1';
-    } else {
-      // Switching to light mode
-      toggleDot.style.transform = 'translateX(0px) rotate(0deg)';
-      if (sunIcon) sunIcon.style.opacity = '1';
-      if (moonIcon) moonIcon.style.opacity = '0';
+  if (isDark) {
+    // Switching to dark mode
+    if (toggleBg) toggleBg.classList.add('dark');
+    if (toggleDot) {
+      toggleDot.classList.add('moved');
+      toggleDot.textContent = '🌙';
     }
+    if (toggleInput) toggleInput.checked = true;
+  } else {
+    // Switching to light mode
+    if (toggleBg) toggleBg.classList.remove('dark');
+    if (toggleDot) {
+      toggleDot.classList.remove('moved');
+      toggleDot.textContent = '☀️';
+    }
+    if (toggleInput) toggleInput.checked = false;
   }
   
   // Save theme preference
   localStorage.setItem("chat-theme", isDark ? "dark" : "light");
   
-  // Show enhanced notification with theme-appropriate emoji
+  // Show notification
   const themeEmoji = isDark ? "🌙" : "☀️";
   const themeText = isDark ? "Dark" : "Light";
   showNotification(`${themeEmoji} ${themeText} mode activated!`, "success");
-  
-  // Add a subtle page flash effect
-  const flashOverlay = document.createElement('div');
-  flashOverlay.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: ${isDark ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.3)'};
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-  `;
-  
-  document.body.appendChild(flashOverlay);
-  
-  // Fade out the flash effect
-  setTimeout(() => {
-    flashOverlay.style.opacity = '0';
-    setTimeout(() => {
-      if (flashOverlay.parentNode) {
-        flashOverlay.parentNode.removeChild(flashOverlay);
-      }
-    }, 300);
-  }, 100);
-  
-  // Remove transition after theme switch is complete
-  setTimeout(() => {
-    document.body.style.transition = '';
-  }, 500);
 }
 
 function showNotification(message, type = "info") {
@@ -648,3 +617,21 @@ function exportChat() {
     showNotification("Export failed. Please try again.", "error");
   }
 }
+
+// Load saved theme on page load
+window.addEventListener('DOMContentLoaded', function() {
+  const savedTheme = localStorage.getItem("chat-theme");
+  if (savedTheme === "dark") {
+    document.body.classList.add("dark");
+    const toggleBg = document.getElementById('toggle-bg');
+    const toggleDot = document.getElementById('toggle-dot');
+    const toggleInput = document.getElementById('dark-toggle');
+    
+    if (toggleBg) toggleBg.classList.add('dark');
+    if (toggleDot) {
+      toggleDot.classList.add('moved');
+      toggleDot.textContent = '🌙';
+    }
+    if (toggleInput) toggleInput.checked = true;
+  }
+});
