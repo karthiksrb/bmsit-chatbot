@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BMSIT&M Smart Chatbot</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --light-bg: #f4f4f5;
+      --dark-bg: #1e1e1e;
+      --light-text: #111827;
+      --dark-text: #f3f4f6;
+    }
+
+    body.dark {
+      background-color: var(--dark-bg);
+      color: var(--dark-text);
+    }
+    .dark .bg-white { background-color: var(--dark-bg); }
+    .dark .text-gray-700 { color: var(--dark-text); }
+    .dark .bg-gray-50, .dark .bg-gray-100 { background-color: #2a2a2a; }
+    .dark .bg-blue-100 { background-color: #1e40af; color: white; }
+    .dark .bg-gray-200 { background-color: #444; }
+    .dark .text-sm { color: white; }
+
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+    }
+    
+    .typing-dots {
+      display: flex;
+      gap: 4px;
+    }
+    
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #3b82f6;
+      animation: typing 1.4s infinite ease-in-out;
+    }
+    
+    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+    
+    @keyframes typing {
+      0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+
+    .message {
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Enhanced Dark Mode Toggle Styles */
+    .toggle-bg {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .toggle-bg::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.1) 100%);
+      border-radius: inherit;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .toggle-bg:hover::before {
+      opacity: 1;
+    }
+
+    .toggle-dot {
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    /* Dark mode checked state */
+    #dark-toggle:checked + .toggle-bg {
+      background: linear-gradient(135deg, #4c1d95, #6b46c1, #8b5cf6) !important;
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+    }
+
+    #dark-toggle:checked + .toggle-bg .toggle-dot {
+      background: linear-gradient(135deg, #1e1b4b, #312e81);
+      border-color: rgba(255,255,255,0.5);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    /* Animation for the sliding glow effect */
+    @keyframes slideGlow {
+      0% { transform: translateX(-100%) scale(0.8); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateX(100%) scale(0.8); opacity: 0; }
+    }
+
+    .toggle-bg::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 10px;
+      height: calc(100% - 4px);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      border-radius: 50px;
+      animation: slideGlow 2s infinite;
+      opacity: 0;
+    }
+
+    #dark-toggle:checked + .toggle-bg::after {
+      animation-duration: 3s;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    }
+
+    /* Hover effects */
+    .group:hover .toggle-bg {
+      transform: scale(1.05);
+      transition: transform 0.2s ease;
+    }
+
+    .group:hover .toggle-dot {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+    /* Focus styles for accessibility */
+    #dark-toggle:focus + .toggle-bg {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
+    }
+
+    /* Smooth icon transitions */
+    .toggle-icon, .toggle-icon-dark {
+      transition: all 0.5s ease;
+      transform-origin: center;
+    }
+
+    #dark-toggle:checked ~ .toggle-dot .toggle-icon {
+      opacity: 0;
+      transform: rotate(180deg) scale(0);
+    }
+
+    #dark-toggle:checked ~ .toggle-dot .toggle-icon-dark {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      z-index: 1000;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    .notification.success { background-color: #10b981; }
+    .notification.error { background-color: #ef4444; }
+    .notification.info { background-color: #3b82f6; }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+<div class="flex justify-center items-center w-full min-h-screen py-4 bg-gray-100 dark:bg-black">
+  <div class="w-full max-w-sm z-50 bg-white dark:bg-black rounded-xl shadow-2xl border border-gray-200 dark:border-white max-h-screen overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between bg-blue-700 text-white p-3">
+      <div class="flex items-center space-x-2">
+        <img src="assets/logo.png" alt="BMSIT Logo" class="w-8 h-8 rounded-full" />
+        <div>
+          <h1 class="font-bold text-base">BMSIT&M Chatbot</h1>
+          <p class="text-xs">Smart Virtual Assistant</p>
+        </div>
+      </div>
+      <!-- Enhanced Dark Mode Toggle -->
+      <div class="flex items-center space-x-2">
+        <span class="text-xs text-gray-600 dark:text-gray-300 transition-colors duration-500">☀️</span>
+        <label class="relative inline-flex items-center cursor-pointer group">
+          <input type="checkbox" id="dark-toggle" class="sr-only peer" onchange="toggleDark()" />
+          <!-- Toggle Background -->
+          <div class="toggle-bg w-14 h-7 bg-gradient-to-r from-sky-400 to-sky-500 rounded-full shadow-inner relative transition-all duration-500 ease-in-out group-hover:shadow-lg">
+            <!-- Toggle Dot -->
+            <div class="toggle-dot absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full shadow-md transform transition-all duration-500 ease-in-out flex items-center justify-center">
+              <span class="toggle-icon text-xs transition-all duration-500">☀️</span>
+              <span class="toggle-icon-dark text-xs transition-all duration-500 absolute opacity-0">🌙</span>
+            </div>
+            <!-- Sliding Background Effect -->
+            <div class="absolute top-0 left-0 w-full h-full rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent transform -translate-x-full transition-transform duration-700 ease-in-out opacity-60"></div>
+          </div>
+        </label>
+        <span class="text-xs text-gray-600 dark:text-gray-300 transition-colors duration-500">🌙</span>
+      </div>
+    </div>
+
+    <!-- Voice I/O Info -->
+    <div class="flex items-center justify-end px-3 py-1">
+      <span class="mr-2 text-xs text-gray-600 dark:text-gray-300">🎤→🔊 Voice I/O</span>
+    </div>
+
+    <!-- Chat messages -->
+    <div id="chat-messages" class="p-3 space-y-2 overflow-y-auto h-80 bg-gray-50 dark:bg-gray-900 scroll-smooth">
+      <div class="flex items-start space-x-2 message">
+        <img src="assets/bot.png" alt="Bot" class="w-6 h-6 rounded-full" />
+        <div class="bg-blue-100 text-sm p-3 rounded-2xl bot-bubble">
+          👋 Hi! I'm your BMSIT Assistant. Ask me anything about the college - courses, admissions, fees, placements, hostel, or campus facilities!
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Suggestions -->
+    <div class="grid grid-cols-2 gap-2 p-2 border-t border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-800" id="suggestions">
+      <button onclick="quickReply('courses')" class="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1.5 rounded-md font-medium">
+        📚 Courses
+      </button>
+      <button onclick="quickReply('admissions')" class="bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1.5 rounded-md font-medium">
+        🎓 Admissions
+      </button>
+      <button onclick="quickReply('fees')" class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1.5 rounded-md font-medium">
+        💰 Fees
+      </button>
+      <button onclick="quickReply('hostel')" class="bg-purple-500 hover:bg-purple-600 text-white text-xs px-3 py-1.5 rounded-md font-medium">
+        🏠 Hostel
+      </button>
+    </div>
+
+    <!-- Input -->
+    <div class="relative border-t p-2 dark:border-white">
+      <div class="flex items-center space-x-2">
+        <input type="text" id="user-input" placeholder="Ask a question..." class="flex-1 border rounded-full px-3 py-1 text-sm dark:bg-gray-800 dark:text-white" />
+        <button onclick="handleSend()" class="bg-blue-500 text-white px-3 py-1 text-sm rounded-full hover:bg-blue-600">Send</button>
+        <button id="mic-btn" onclick="toggleVoiceInput()" class="bg-blue-500 text-white p-1 rounded-full text-sm hover:bg-blue-600">🎤</button>
+        <button onclick="exportChat()" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded-full text-sm">📑</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="qa-data.js"></script>
+<script src="chatbot.js"></script>
+</body>
+</html>

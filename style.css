@@ -1,0 +1,190 @@
+/* BMSIT&M Chatbot Additional Styles */
+
+/* Enhanced Dark Mode Toggle Animations */
+.toggle-bg {
+  background: linear-gradient(135deg, #0ea5e9, #3b82f6, #6366f1);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggle-bg.dark-mode {
+  background: linear-gradient(135deg, #4c1d95, #6b46c1, #8b5cf6) !important;
+  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.4);
+}
+
+.toggle-dot {
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.toggle-icon {
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.toggle-icon-dark {
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+/* Pulsing effect for toggle */
+@keyframes togglePulse {
+  0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+.toggle-bg:active {
+  animation: togglePulse 0.6s;
+}
+
+/* Smooth scrolling for chat messages */
+#chat-messages {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for chat area */
+#chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+#chat-messages::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Dark mode scrollbar */
+.dark #chat-messages::-webkit-scrollbar-track {
+  background: #2a2a2a;
+}
+
+.dark #chat-messages::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+.dark #chat-messages::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+/* Message animations */
+.message {
+  animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Button hover effects */
+button {
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Input focus effects */
+#user-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Bot bubble special styling */
+.bot-bubble {
+  position: relative;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+/* User message styling */
+.user-message {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .container {
+    margin: 10px;
+    max-width: calc(100vw - 20px);
+  }
+  
+  #chat-messages {
+    height: 300px;
+  }
+  
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  button {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+/* Loading states */
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Success/Error states */
+.success-border {
+  border-color: #10b981 !important;
+}
+
+.error-border {
+  border-color: #ef4444 !important;
+}
+
+/* Accessibility improvements */
+button:focus,
+input:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .bg-blue-100 {
+    background-color: #dbeafe;
+    color: #1e40af;
+  }
+  
+  .dark .bg-blue-100 {
+    background-color: #1e40af;
+    color: #dbeafe;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .message,
+  button,
+  .typing-dot {
+    animation: none;
+    transition: none;
+  }
+}
