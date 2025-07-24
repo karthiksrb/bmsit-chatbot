@@ -17,7 +17,31 @@ if (window.bmsitChatbotLoaded) {
   // Configuration: Set to true to always start with a fresh chat
   const ALWAYS_START_FRESH = true; // Always start fresh - only welcome message
 
-  console.log("✅ QA Data loaded:", qaData.length, "items");
+  // Wait for QA data to be available
+  function waitForQAData() {
+    if (typeof window !== 'undefined' && window.qaData) {
+      console.log("✅ QA Data loaded:", window.qaData.length, "items");
+      return window.qaData;
+    } else if (typeof qaData !== 'undefined') {
+      console.log("✅ QA Data loaded:", qaData.length, "items");
+      return qaData;
+    }
+    return null;
+  }
+  
+  // Get QA data reference
+  const getQAData = () => {
+    return (typeof window !== 'undefined' && window.qaData) ? window.qaData : 
+           (typeof qaData !== 'undefined') ? qaData : null;
+  };
+  
+  console.log("🔄 Checking QA Data availability...");
+  const initialData = waitForQAData();
+  if (initialData) {
+    console.log("✅ QA Data ready:", initialData.length, "items");
+  } else {
+    console.log("⏳ QA Data will be loaded when available");
+  }
 
   function appendMessage(message, sender, skipSave = false) {
     const chatMessages = document.getElementById("chat-messages");
@@ -193,42 +217,58 @@ if (window.bmsitChatbotLoaded) {
     let bestMatch = null;
     let bestScore = 0;
     
-    for (const item of qaData) {
-      if (item.question && lowerText.includes(item.question.toLowerCase())) {
-        return item.answer;
+    // Get current QA data
+    const currentQAData = getQAData();
+    
+    // Debug logging
+    console.log("🔍 Searching for:", lowerText);
+    console.log("📊 QA Data available:", currentQAData ? currentQAData.length : 0, "items");
+    
+    if (!currentQAData || !Array.isArray(currentQAData)) {
+      console.error("❌ QA Data not loaded properly");
+      console.error("Available data:", typeof currentQAData, currentQAData);
+      return "⚠️ Sorry, I'm having trouble accessing my knowledge base. Please refresh the page and try again.\n\n**Debug Info:** QA Data not available - check browser console for details.";
+    }
+    
+    for (const item of currentQAData) {
+      if (!item || !item.keywords || !Array.isArray(item.keywords)) {
+        continue;
       }
       
-      if (item.keywords && Array.isArray(item.keywords)) {
-        let score = 0;
-        let matches = 0;
+      let score = 0;
+      let matches = 0;
+      
+      for (const keyword of item.keywords) {
+        const keywordLower = keyword.toLowerCase();
         
-        for (const keyword of item.keywords) {
-          const keywordLower = keyword.toLowerCase();
-          
-          if (lowerText.includes(keywordLower) || keywordLower.includes(lowerText)) {
-            matches += 2;
-            score += 1.0;
-          } else if (fuzzyMatch(lowerText, keyword)) {
-            matches++;
-            score += calculateSimilarity(lowerText, keywordLower);
-          }
+        // Exact match or contains
+        if (lowerText.includes(keywordLower) || keywordLower.includes(lowerText)) {
+          matches += 2;
+          score += 1.0;
+        } 
+        // Fuzzy match
+        else if (fuzzyMatch(lowerText, keyword)) {
+          matches++;
+          score += calculateSimilarity(lowerText, keywordLower);
         }
-        
-        if (matches > 0) {
-          const avgScore = score / Math.max(matches, 1);
-          if (avgScore > bestScore) {
-            bestScore = avgScore;
-            bestMatch = item.answer;
-          }
+      }
+      
+      if (matches > 0) {
+        const avgScore = score / Math.max(matches, 1);
+        if (avgScore > bestScore) {
+          bestScore = avgScore;
+          bestMatch = item.answer;
         }
       }
     }
+    
+    console.log("🎯 Best score:", bestScore, "Match found:", !!bestMatch);
     
     if (bestMatch && bestScore > 0.3) {
       return bestMatch;
     }
     
-    return "🤔 I'm not sure about that. Try asking about courses, admissions, fees, hostels, placements, or campus facilities at BMSIT&M!";
+    return "🤔 I'm not sure about that. Try asking about:\n• **Courses** - programs offered\n• **Admissions** - how to apply\n• **Fees** - cost structure\n• **Hostel** - accommodation\n• **Placements** - career opportunities\n• **Campus** - facilities and location";
   }
 
   async function handleSend() {
@@ -602,9 +642,13 @@ if (window.bmsitChatbotLoaded) {
 
   // Initialize when DOM is ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeChatbot);
+    document.addEventListener('DOMContentLoaded', () => {
+      // Wait a bit for QA data to load
+      setTimeout(initializeChatbot, 100);
+    });
   } else {
-    initializeChatbot();
+    // Wait a bit for QA data to load
+    setTimeout(initializeChatbot, 100);
   }
   
   console.log("✅ BMSIT&M Chatbot script loaded");

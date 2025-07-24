@@ -1,7 +1,7 @@
 
 // Cleaned and Optimized QA Data for BMSIT&M Chatbot
 // Removed duplicates, merged related entries, and organized content
-// Generated on: ${new Date().toLocaleString()}
+// Last updated: December 2024
 
 // BMSIT&M Chatbot QA Data - English Only
 // Comprehensive information about BMS Institute of Technology & Management
@@ -9,8 +9,7 @@
 const qaData = [
   // About & Overview
   {
-    "keywords": ["about", "about college", "about bmsit", "history", "overview", "established", "founded"],
-    "keywords": ["about", "about college", "about bmsit", "history", "overview", "established", "founded", "bmsit&m", "bmist", "bmsitm", "bms", "bmset", "college", "colege", "collage", "institute", "institue", "technology", "tech", "management", "mgmt"],
+    "keywords": ["about", "about college", "about bmsit", "about bmsitm", "about bmsit&m", "history", "overview", "established", "founded", "bmsit&m", "bmist", "bmsitm", "bms institute", "bmset", "what is bmsit", "tell me about", "college info", "institute info"],
     "answer": "🏛️ **About BMSIT&M:**\n\nBMS Institute of Technology & Management is a premier engineering college established in 2002 by BMS Educational Trust. With a legacy dating back to 1946, BMSET was the first private engineering college in India.\n\n🎯 **Key Highlights:**\n• Autonomous status (2020-2030)\n• NAAC 'A' Grade accredited\n• NBA accredited programs\n• 22-acre eco-friendly campus\n• 150+ experienced faculty\n• Strong industry connections"
   },
   
@@ -28,27 +27,20 @@ const qaData = [
   
   // Courses & Programs (Merged multiple entries)
   {
-    "keywords": ["courses", "programs", "degrees", "offered", "available courses", "departments", "branches", "streams", "engineering branches", "undergraduate", "btech", "be", "postgraduate", "mtech", "mba", "mca", "phd"],
-    "answer": "🎓 **Academic Programs at BMSIT&M:**\n\n**Undergraduate (B.E.):**\n• Computer Science & Engineering (CSE)\n• Information Science & Engineering (ISE)\n• Computer Science & Business Systems (CSBS)\n• Artificial Intelligence & Machine Learning (AI&ML)\n• Electronics & Communication Engineering (ECE)\n• Electrical & Electronics Engineering (EEE)\n• Electronics & Telecommunication Engineering (ETE)\n• Mechanical Engineering (ME)\n• Civil Engineering (CE)\n\n**Postgraduate:**\n• M.Tech in CSE & Cyber Security\n• MBA (Master of Business Administration)\n• MCA (Master of Computer Applications)\n• Ph.D. in various engineering & management disciplines\n\n**Total Programs:** 9 UG + 4 PG programs"
-  },
-  
-  // Admissions (Comprehensive)
-  // Courses & Programs
-  {
-    "keywords": ["courses", "programs", "degrees", "offered", "available courses", "departments", "branches", "streams", "engineering branches", "undergraduate", "btech", "be", "postgraduate", "mtech", "mba", "mca", "phd", "course", "program", "degree", "dept", "department", "branch", "stream", "ug", "pg", "graduation", "masters", "bachelor", "engineering", "engg", "eng"],
+    "keywords": ["courses", "programs", "degrees", "courses offered", "available courses", "what courses", "departments", "branches", "streams", "engineering branches", "academic programs", "study programs", "degree programs"],
     "answer": "🎓 **Academic Programs at BMSIT&M:**\n\n**Undergraduate (B.E.):**\n• Computer Science & Engineering (CSE)\n• Information Science & Engineering (ISE)\n• Computer Science & Business Systems (CSBS)\n• Artificial Intelligence & Machine Learning (AI&ML)\n• Electronics & Communication Engineering (ECE)\n• Electrical & Electronics Engineering (EEE)\n• Electronics & Telecommunication Engineering (ETE)\n• Mechanical Engineering (ME)\n• Civil Engineering (CE)\n\n**Postgraduate:**\n• M.Tech in CSE & Cyber Security\n• MBA (Master of Business Administration)\n• MCA (Master of Computer Applications)\n• Ph.D. in various engineering & management disciplines\n\n**Total Programs:** 9 UG + 4 PG programs"
   },
   
   // Admissions
   {
-    "keywords": ["admission", "admissions", "kcet", "comedk", "entrance", "pgcet", "gate", "kmat", "admission process", "how to apply", "application", "apply", "eligibility", "eligibility criteria", "qualification", "minimum marks", "requirements", "criteria"],
+    "keywords": ["admission", "admissions", "how to get admission", "admission process", "how to apply", "application", "apply", "joining", "eligibility", "eligibility criteria", "qualification", "minimum marks", "requirements", "criteria", "entrance exam", "admission requirements"],
     "answer": "📝 **Admission Process & Eligibility:**\n\n**Undergraduate (B.E.) Admissions:**\n• **Entrance:** KCET (Govt quota), COMEDK (Private quota), JEE Main\n• **Eligibility:** 12th with PCM, Min 45% (40% for SC/ST)\n• **Management Quota:** Available with higher fees\n\n**Postgraduate Admissions:**\n• **M.Tech:** PGCET/GATE, B.E./B.Tech with 50% (45% SC/ST)\n• **MBA:** KMAT/CAT/MAT, Bachelor's degree with 50%\n• **MCA:** PGCET, Bachelor's with Mathematics, 50%\n• **Ph.D.:** ULRAT + Interview + Research proposal\n\n**Required Documents:**\n• 10th & 12th mark sheets\n• Entrance exam scorecard\n• Transfer & conduct certificates\n• Caste certificate (if applicable)"
   },
   
   // Fees (Comprehensive)
   // Fees
   {
-    "keywords": ["fees", "tuition fee", "btech fees", "mtech fees", "mba fees", "mca fees", "fee structure", "management quota", "management seats"],
+    "keywords": ["fees", "fee structure", "tuition fee", "cost", "price", "charges", "how much fees", "what is fees", "fee details", "money", "expense", "financial"],
     "answer": "💰 **Fee Structure 2025-26:**\n\n**B.E. Programs:**\n• **Government Quota:** ₹1.2-1.5 L/year\n• **COMEDK Quota:** ₹2.5-3.5 L/year\n• **Management Quota:** ₹8-26 L/year\n  - CSE/AI&ML: ₹26 L/year\n  - ECE/EEE: ₹20 L/year\n  - Mechanical/Civil: ₹15 L/year\n\n**Postgraduate:**\n• M.Tech: ₹2-5 L total\n• MBA: ₹5.5 L total\n• MCA: ₹5.5 L total\n\n**Additional Costs:**\n• Hostel: ₹1.54-1.92 L/year\n• Bus: ₹25,000/year\n• Miscellaneous: ₹15,000-25,000\n\n*Note: Management quota has ~25% seats with higher fees*"
   },
   
@@ -66,7 +58,7 @@ const qaData = [
     "answer": "📚 **Library Information:**\n\n**Hours:**\n• Weekdays: 8:00 AM - 8:00 PM\n• Saturdays: 9:00 AM - 5:00 PM\n• Sundays: Closed\n• During exams: Extended hours till 10:00 PM\n\n**Facilities:**\n• Digital section with e-resources\n• Thousands of books and journals\n• Comfortable seating arrangements\n• Reprographic services\n• Study halls and reading rooms\n• Wi-Fi connectivity"
   },
    {
-    "keywords": ["hostel", "accommodation", "hostel fee", "hostel fees", "kalarava", "hostel fest", "hostel life", "hostel facilities", "mess", "hostel rules"],
+    "keywords": ["hostel", "accommodation", "residence", "housing", "stay", "room", "hostel facilities", "hostel life", "boarding", "hostel info"],
     "answer": "🏠 **Hostel Information:**\n\n**Accommodation:**\n• Boys hostel: On-campus (500+ capacity)\n• Girls hostel: Off-campus with shuttle service\n• AC and non-AC rooms available\n• Single, double, triple occupancy options\n• Total capacity: ~622 students\n\n**Annual Fees:** ₹1,54,000 to ₹1,92,000 (varies by room type)\n\n**Facilities:**\n• 24/7 security\n• Wi-Fi connectivity\n• Common rooms with TV\n• Study halls\n• Laundry services\n• Medical facility\n\n**Mess & Food:**\n• Hygienic vegetarian meals\n• South Indian & North Indian cuisine\n• Special festival meals\n• Tiffin facility\n\n**Activities:**\n• Kalarava - Annual hostel fest\n• Sports tournaments (cricket, football, tug-of-war)\n• Cultural programs (singing, dancing)\n• Study groups"
   },
   
@@ -77,7 +69,7 @@ const qaData = [
   },
   
  {
-    "keywords": ["placement", "placements", "training cell", "placement stats", "highest package", "average package", "placement statistics", "recruiters", "companies", "top recruiters", "placement companies"],
+    "keywords": ["placement", "placements", "job", "career", "recruitment", "companies", "hiring", "employment", "placement statistics", "placement record", "job opportunities"],
     "answer": "📊 **Placements & Career Opportunities:**\n\n**2024 Placement Statistics:**\n• Students Placed: 601\n• Total Offers: 772\n• Recruiting Companies: 181\n• Placement Percentage: 85%+\n\n**Package Details:**\n• Highest Package: ₹26.4 LPA\n• Average Package: ₹7.9 LPA\n• Median Package: ₹6.5 LPA\n\n**Department-wise Average:**\n• AI&ML: ₹10.1 LPA\n• CSE: ₹9.2 LPA\n• ISE: ₹8.8 LPA\n• ECE: ₹7.5 LPA\n\n**Top Recruiters:**\n• **Product:** Google, Amazon, Microsoft, Flipkart, Swiggy\n• **Service:** Infosys, TCS, Wipro, Accenture, IBM\n• **Core:** Hitachi, Bosch, L&T, Tata Motors\n• **Startups:** Byju's, Ola, Paytm, Razorpay\n\n*Training & Placement Cell established in 2004*"
   },
   
@@ -89,58 +81,54 @@ const qaData = [
   
   // Campus Life & Activities
   {
-    "keywords": ["campus life", "student life", "clubs", "activities", "events", "fest", "cultural fest", "tech fest", "spectrum", "clientscape", "coding club", "robotics club", "nss", "community service"],
-
-  // Campus Life
-  {
-    "keywords": ["campus life", "student life", "events", "festivals", "clubs", "activities", "spectrum", "cultural", "technical", "sports"],
+    "keywords": ["campus life", "student life", "clubs", "activities", "events", "fest", "cultural fest", "tech fest", "spectrum", "clientscape", "coding club", "robotics club", "nss", "community service", "festivals", "cultural", "technical", "sports"],
     "answer": "🎭 **Campus Life & Student Activities:**\n\n**Major Events:**\n• **Spectrum** - Annual Tech-Cultural Fest\n• **ClientScape** - Inter-college competition\n• **TechTransform** - Technical symposium\n• **Kalarava** - Hostel fest\n\n**Clubs & Associations:**\n• Coding Club & Robotics Club\n• SAE India Collegiate Club\n• Cultural Club & Literary Club\n• NSS (National Service Scheme)\n• Sports Club\n\n**Regular Activities:**\n• Industry expert lectures\n• Technical workshops and seminars\n• Cultural programs\n• Sports tournaments\n• Community service initiatives"
   },
   
   // Department-specific Information
   {
-    "keywords": ["cse", "computer science", "software engineering", "cse department"],
+    "keywords": ["cse department", "computer science engineering", "cse details", "cse info", "computer science department", "software engineering department"],
     "answer": "💻 **Computer Science & Engineering:**\n\n**Department Highlights:**\n• Established: 2002\n• Intake: 180 (UG) + 36 (PG)\n• Faculty: 25+ (19 Ph.D. holders)\n• NBA Accredited\n\n**Specializations:**\n• Software Engineering\n• Data Science & Analytics\n• Cybersecurity\n• Cloud Computing\n• Mobile App Development\n\n**Labs & Facilities:**\n• Programming Labs (C, C++, Java, Python)\n• Database Management Lab\n• Computer Networks Lab\n• Software Engineering Lab\n• Project Development Center\n• Research & Development Center\n\n**Industry Connections:**\n• IBM, Microsoft partnerships\n• Industry expert lectures\n• Internship programs\n• Live project opportunities"
   },
   
   {
-    "keywords": ["ece", "electronics", "communication"],
+    "keywords": ["ece department", "electronics communication engineering", "ece details", "electronics communication department"],
     "answer": "📡 **Electronics & Communication Engineering:**\n\nECE department offers expert faculty, PCB & microprocessor labs, and hands-on training in VLSI, IoT, and embedded systems with strong industry connections."
   },
-  
+
   {
-    "keywords": ["eee", "electrical", "power systems"],
+    "keywords": ["eee department", "electrical electronics engineering", "eee details", "electrical department", "power systems department"],
     "answer": "⚡ **Electrical & Electronics Engineering:**\n\nEEE department includes power electronics labs, control systems, green energy research and experienced faculty with focus on sustainable energy solutions."
   },
-  
+
   {
-    "keywords": ["mech", "mechanical", "mechanics", "automobile"],
+    "keywords": ["mechanical department", "mechanical engineering department", "mech department", "mech details", "automobile department"],
     "answer": "🔧 **Mechanical Engineering:**\n\nMechanical department has CAD/CAM labs, thermodynamics setups, automobile workshop and manufacturing labs with industry-standard equipment."
   },
-  
+
   {
-    "keywords": ["civil", "civil engineering", "surveying", "construction"],
+    "keywords": ["civil department", "civil engineering department", "civil details", "construction department", "surveying department"],
     "answer": "🏗️ **Civil Engineering:**\n\nCivil department has surveying lab, concrete technology lab, structural testing and environmental engineering facilities with modern equipment."
   },
-  
+
   {
-    "keywords": ["ise", "information science", "software"],
+    "keywords": ["ise department", "information science engineering", "ise details", "information science department"],
     "answer": "💾 **Information Science & Engineering:**\n\nISE offers software engineering, database labs, networking and electives in AI, data science with focus on information systems and software development."
   },
-  
+
   {
-    "keywords": ["telecommunication", "telecom", "signal processing"],
+    "keywords": ["telecommunication department", "telecom department", "ete department", "signal processing department", "electronics telecommunication"],
     "answer": "📶 **Telecommunication Engineering:**\n\nTelecom department has signal processing labs, wireless communication setups, satellite and fiber-optics labs with cutting-edge technology."
   },
-  
+
   {
-    "keywords": ["ai ml", "artificial intelligence", "machine learning"],
+    "keywords": ["ai ml department", "artificial intelligence department", "machine learning department", "aiml department", "ai&ml department"],
     "answer": "🤖 **Artificial Intelligence & Machine Learning:**\n\nAI&ML is a cutting-edge program with specialized labs for deep learning, neural networks, and data analytics with industry-relevant curriculum."
   },
   
   // Scholarships & Support
   {
-    "keywords": ["scholarship", "nsp", "merit", "sc", "st"],
+    "keywords": ["scholarship", "scholarships", "financial aid", "merit scholarship", "sc st scholarship", "government scholarship", "fee waiver"],
     "answer": "🎓 **Scholarships & Financial Aid:**\n\nScholarships available under NSP, AICTE, UGC for meritorious students and SC/ST categories. Financial assistance up to ₹82,000/year for eligible students."
   },
   
@@ -172,6 +160,8 @@ const qaData = [
   {
     "keywords": ["first aid", "safety", "medical", "health center", "clinic"],
     "answer": "🏥 **Health & Safety:**\n\n**Medical Facilities:**\n• On-campus medical center with qualified doctors\n• Essential health services available\n• Emergency medical support\n\n**Safety Measures:**\n• First-aid kits in labs and library\n• Fire extinguishers strategically placed\n• 24/7 security\n• Water coolers throughout campus"
+  },
+  
   // Location & Contact with Map
   {
     "keywords": ["location", "address", "contact", "phone", "email", "where", "how to reach", "directions", "map"],
@@ -525,7 +515,33 @@ const qaData = [
 
   // Campus Map & Facilities
   {
-    "keywords": ["campus map", "campus layout", "facilities map", "college map", "building locations"],
+    "keywords": ["campus map", "campus layout", "facilities map", "college map", "building locations", "where is", "campus tour"],
     "answer": "🗺️ **Campus Map & Facilities Layout:**\n\n**📍 Interactive Campus Map:** [View Campus Map](https://bmsit.ac.in/campus-map)\n\n**🏢 Main Buildings:**\n• **Academic Block:** Classrooms, labs, faculty offices\n• **Administrative Block:** Principal office, admissions\n• **Library Building:** Central library, reading halls\n• **Hostel Block:** Boys hostel (on-campus)\n• **Cafeteria Building:** Food court, dining halls\n• **Auditorium:** Central auditorium, seminar halls\n• **Sports Complex:** Gymnasium, indoor games\n\n**🔬 Department Locations:**\n• **CSE & ISE:** Academic Block, 2nd & 3rd Floor\n• **MCA Department:** Academic Block, 3rd Floor\n• **ECE & EEE:** Academic Block, 1st Floor\n• **Mechanical:** Workshop area, Ground floor\n• **Civil:** Near testing labs\n• **MBA:** Separate wing, 2nd floor\n\n**🏃‍♂️ Sports Facilities:**\n• **Cricket Ground:** Main ground (center)\n• **Football Field:** Adjacent to cricket ground\n• **Basketball Court:** Near sports complex\n• **Volleyball Court:** Behind academic block\n• **Badminton Courts:** Indoor sports complex\n• **Gymnasium:** Modern fitness equipment\n\n**🚗 Transportation & Parking:**\n• **Main Gate:** Security checkpoint\n• **Student Parking:** Two-wheeler parking areas\n• **Faculty Parking:** Dedicated car parking\n• **Bus Stop:** College bus pickup point\n• **Auto Stand:** Outside main gate\n\n**🌳 Green Spaces:**\n• **Central Garden:** Landscaped area\n• **Tree Plantation:** Throughout campus\n• **Eco-friendly Zones:** Waste management\n• **Walking Paths:** Jogging tracks\n\n**📞 Important Locations:**\n• **Medical Center:** Near main gate\n• **ATM:** Inside campus\n• **Stationery Shop:** Near cafeteria\n• **Photocopy Center:** Academic block\n• **Wi-Fi Zones:** Entire campus coverage"
+  },
+
+  // Specific queries that might cause confusion
+  {
+    "keywords": ["kcet", "comedk", "kcet cutoff", "comedk cutoff", "entrance exam"],
+    "answer": "📈 **Entrance Exams & Cutoffs:**\n\n**KCET (Karnataka CET):**\n• Government quota seats\n• Lower fees structure\n• Merit-based admission\n• Cutoffs vary by branch\n\n**COMEDK:**\n• Private quota seats\n• Higher fees than KCET\n• Separate entrance exam\n• CSE closing rank: ~12,938 (2023)\n\n**JEE Main:**\n• Also accepted for admission\n• Limited seats available\n• Merit-based selection\n\n**Management Quota:**\n• Direct admission available\n• Higher fee structure\n• Limited seats (~25%)\n• No entrance exam required"
+  },
+
+  {
+    "keywords": ["btech fees", "be fees", "undergraduate fees", "ug fees", "engineering fees"],
+    "answer": "💰 **B.E./B.Tech Fee Structure 2025-26:**\n\n**Government Quota (KCET):**\n• Annual Fee: ₹1.2-1.5 L/year\n• Total 4-year cost: ₹4.8-6 L\n• Most affordable option\n\n**COMEDK Quota:**\n• Annual Fee: ₹2.5-3.5 L/year\n• Total 4-year cost: ₹10-14 L\n• Merit-based admission\n\n**Management Quota:**\n• CSE/AI&ML: ₹26 L/year\n• ECE/EEE: ₹20 L/year\n• Mechanical/Civil: ₹15 L/year\n• Direct admission available\n\n**Additional Costs:**\n• Hostel: ₹1.54-1.92 L/year\n• Transport: ₹25,000/year\n• Books & misc: ₹15,000-25,000/year"
+  },
+
+  {
+    "keywords": ["mtech fees", "mca fees", "mba fees", "postgraduate fees", "pg fees"],
+    "answer": "💰 **Postgraduate Fee Structure 2025-26:**\n\n**M.Tech Programs:**\n• Total Fee: ₹2-5 L (2 years)\n• Specializations: CSE, Cyber Security\n• Research opportunities available\n\n**MCA Program:**\n• Total Fee: ₹5.5 L (2 years)\n• NBA accredited program\n• Excellent placement record\n\n**MBA Program:**\n• Total Fee: ₹5.5 L (2 years)\n• Multiple specializations\n• Industry exposure programs\n\n**Additional Costs:**\n• Hostel: ₹1.54-1.92 L/year\n• Transport: ₹25,000/year\n• Books & materials: ₹10,000-15,000/year"
   }
 ];
+
+// Make QA data available globally for browser use
+if (typeof window !== 'undefined') {
+  window.qaData = qaData;
+}
+
+// Support CommonJS for Node.js testing
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = qaData;
+}

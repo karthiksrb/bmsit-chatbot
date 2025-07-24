@@ -1,5 +1,118 @@
-/* BMSIT&M Chatbot Additional Styles */
+/* BMSIT&M Chatbot - Clean Styles */
 
+/* CSS Variables for theming */
+:root {
+  --bg-light: #f3f4f6;
+  --bg-dark: #1f2937;
+  --text-light: #111827;
+  --text-dark: #f9fafb;
+  --bot-bubble-light: #e0f2fe;
+  --bot-bubble-dark: #2563eb;
+  --user-bubble-light: #dcfce7;
+  --user-bubble-dark: #4ade80;
+}
+
+/* Base styling */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-light);
+  transition: background 0.3s ease, color 0.3s ease;
+  margin: 0;
+  padding: 0;
+}
+
+/* Dark mode styling */
+body.dark {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+/* Chat Bubbles */
+.bubble {
+  max-width: 80%;
+  padding: 10px 15px;
+  border-radius: 20px;
+  line-height: 1.4;
+  font-size: 14px;
+  word-wrap: break-word;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Bot Bubble */
+.bot-bubble {
+  background-color: var(--bot-bubble-light);
+  align-self: flex-start;
+  border-top-left-radius: 5px;
+  color: #111827;
+  position: relative;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+body.dark .bot-bubble {
+  background-color: var(--bot-bubble-dark);
+  color: white;
+}
+
+/* User Bubble */
+.user-bubble {
+  background-color: var(--user-bubble-light);
+  align-self: flex-end;
+  border-top-right-radius: 5px;
+  color: black;
+}
+
+body.dark .user-bubble {
+  background-color: var(--user-bubble-dark);
+  color: black;
+}
+
+/* User message styling */
+.user-message {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+
+/* Typing Animation */
+.typing-dots {
+  display: inline-block;
+  width: 30px;
+  height: 10px;
+}
+
+.typing-dots span {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin: 0 2px;
+  background-color: #9ca3af;
+  border-radius: 50%;
+  animation: typing 1.2s infinite ease-in-out;
+}
+
+.typing-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.3;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Chat scrolling */
+#chat-window {
+  scroll-behavior: smooth;
+}
 /* Enhanced Dark Mode Toggle Animations */
 .toggle-bg {
   background: linear-gradient(135deg, #0ea5e9, #3b82f6, #6366f1);
@@ -110,18 +223,6 @@ button:active {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-/* Bot bubble special styling */
-.bot-bubble {
-  position: relative;
-  word-wrap: break-word;
-  line-height: 1.4;
-}
-
-/* User message styling */
-.user-message {
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-}
-
 /* Responsive design */
 @media (max-width: 480px) {
   .container {
@@ -187,4 +288,31 @@ input:focus {
     animation: none;
     transition: none;
   }
+}
+
+/* Notification styles */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  max-width: 300px;
+  word-wrap: break-word;
+}
+
+.notification.success { background-color: #10b981; }
+.notification.error { background-color: #ef4444; }
+.notification.info { background-color: #3b82f6; }
+.notification.warning { background-color: #f59e0b; }
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
