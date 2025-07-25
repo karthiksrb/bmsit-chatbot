@@ -58,7 +58,7 @@ if (window.bmsitChatbotLoaded) {
     if (sender === "user") {
       messageDiv.innerHTML = `
         <div class="flex justify-end">
-          <div class="bg-blue-500 text-white text-sm p-3 rounded-2xl user-bubble max-w-xs">${formatMessage(message)}</div>
+          <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-sm p-4 rounded-2xl rounded-tr-md user-bubble max-w-xs shadow-lg border border-blue-400/20">${formatMessage(message)}</div>
         </div>
       `;
       
@@ -71,10 +71,12 @@ if (window.bmsitChatbotLoaded) {
       }
     } else {
       messageDiv.innerHTML = `
-        <div class="flex items-start space-x-2">
-          <img src="assets/bot.png" alt="Bot" class="bot-avatar-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <div class="bot-avatar" style="display: none;">🤖</div>
-          <div class="bg-blue-100 dark:bg-blue-800 text-sm p-3 rounded-2xl bot-bubble max-w-xs">${formatMessage(message)}</div>
+        <div class="flex items-start space-x-3">
+          <div class="relative">
+            <img src="assets/bot.png" alt="Bot" class="w-10 h-10 rounded-full border-2 border-blue-200 dark:border-blue-600 shadow-md" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border border-white"></div>
+          </div>
+          <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/50 dark:to-indigo-900/50 text-sm p-4 rounded-2xl rounded-tl-md bot-bubble max-w-xs shadow-sm border border-blue-100 dark:border-blue-800">${formatMessage(message)}</div>
         </div>
       `;
       
@@ -114,15 +116,18 @@ if (window.bmsitChatbotLoaded) {
     typingDiv.id = "typing-indicator";
     typingDiv.className = "message mb-4";
     typingDiv.innerHTML = `
-      <div class="flex items-start space-x-2">
-        <img src="assets/bot.png" alt="Bot" class="bot-avatar-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-        <div class="bot-avatar" style="display: none;">🤖</div>
-        <div class="typing-indicator bg-gray-100 dark:bg-gray-700 p-3 rounded-2xl">
+      <div class="flex items-start space-x-3">
+        <div class="relative">
+          <img src="assets/bot.png" alt="Bot" class="w-10 h-10 rounded-full border-2 border-blue-200 dark:border-blue-600 shadow-md" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border border-white"></div>
+        </div>
+        <div class="typing-indicator">
           <div class="typing-dots">
             <div class="typing-dot"></div>
             <div class="typing-dot"></div>
             <div class="typing-dot"></div>
           </div>
+          <div class="typing-text">Assistant is typing...</div>
         </div>
       </div>
     `;
@@ -175,34 +180,51 @@ if (window.bmsitChatbotLoaded) {
     const lowerText = text.toLowerCase();
     const lowerKeyword = keyword.toLowerCase();
     
+    // Direct inclusion check
     if (lowerText.includes(lowerKeyword) || lowerKeyword.includes(lowerText)) return true;
     
+    // Enhanced variations with common misspellings
     const variations = {
-      'cse': ['computer science', 'cs', 'comp sci', 'computer science engineering'],
-      'ise': ['information science', 'is', 'info sci', 'information science engineering'],
-      'ece': ['electronics', 'communication', 'ec', 'electronics communication'],
-      'fees': ['fee', 'cost', 'price', 'tuition', 'charges', 'amount', 'money'],
-      'hostel': ['accommodation', 'residence', 'housing', 'stay', 'room'],
-      'placement': ['job', 'career', 'recruitment', 'company', 'hiring', 'employment'],
-      'admission': ['admissions', 'join', 'entry', 'enroll', 'apply']
+      'cse': ['computer science', 'cs', 'comp sci', 'computer science engineering', 'compsci', 'comp science'],
+      'ise': ['information science', 'is', 'info sci', 'information science engineering', 'infosci', 'info science'],
+      'ece': ['electronics', 'communication', 'ec', 'electronics communication', 'elec comm', 'electronics comm'],
+      'eee': ['electrical', 'electronics', 'electrical electronics', 'elec', 'electrical engg'],
+      'mech': ['mechanical', 'mechanical engineering', 'mech engg', 'mechanics'],
+      'civil': ['civil engineering', 'civil engg', 'construction'],
+      'ai': ['artificial intelligence', 'ai ml', 'aiml', 'machine learning', 'ai&ml'],
+      'mca': ['master computer applications', 'computer applications', 'applications', 'mca course'],
+      'mba': ['master business administration', 'business administration', 'management'],
+      'mtech': ['master technology', 'm tech', 'masters', 'postgraduate'],
+      'fees': ['fee', 'cost', 'price', 'tuition', 'charges', 'amount', 'money', 'expense'],
+      'hostel': ['accommodation', 'residence', 'housing', 'stay', 'room', 'boarding'],
+      'placement': ['job', 'career', 'recruitment', 'company', 'hiring', 'employment', 'placements'],
+      'admission': ['admissions', 'join', 'entry', 'enroll', 'apply', 'application', 'joining'],
+      'campus': ['college', 'institute', 'university', 'campus life', 'facilities'],
+      'library': ['books', 'study', 'reading', 'lib'],
+      'sports': ['games', 'athletics', 'physical', 'gym', 'fitness'],
+      'research': ['r&d', 'innovation', 'projects', 'publications']
     };
     
+    // Check variations
     for (const [key, values] of Object.entries(variations)) {
-      if (lowerKeyword.includes(key) || key.includes(lowerKeyword)) {
-        if (values.some(v => lowerText.includes(v) || v.includes(lowerText))) {
+      if (lowerKeyword.includes(key) || key.includes(lowerKeyword) || 
+          lowerText.includes(key) || key.includes(lowerText)) {
+        if (values.some(v => lowerText.includes(v) || v.includes(lowerText) || 
+                            lowerKeyword.includes(v) || v.includes(lowerKeyword))) {
           return true;
         }
       }
     }
     
-    const textWords = lowerText.split(' ');
-    const keywordWords = lowerKeyword.split(' ');
+    // Word-level similarity check with higher threshold
+    const textWords = lowerText.split(/\s+/);
+    const keywordWords = lowerKeyword.split(/\s+/);
     
     for (const textWord of textWords) {
       for (const keywordWord of keywordWords) {
-        if (textWord.length > 2 && keywordWord.length > 2) {
+        if (textWord.length > 3 && keywordWord.length > 3) {
           const similarity = calculateSimilarity(textWord, keywordWord);
-          if (similarity > 0.75) {
+          if (similarity > 0.8) { // Higher threshold for better accuracy
             return true;
           }
         }
@@ -216,6 +238,7 @@ if (window.bmsitChatbotLoaded) {
     const lowerText = userText.toLowerCase().trim();
     let bestMatch = null;
     let bestScore = 0;
+    let bestMatchInfo = null;
     
     // Get current QA data
     const currentQAData = getQAData();
@@ -230,45 +253,109 @@ if (window.bmsitChatbotLoaded) {
       return "⚠️ Sorry, I'm having trouble accessing my knowledge base. Please refresh the page and try again.\n\n**Debug Info:** QA Data not available - check browser console for details.";
     }
     
+    // Enhanced scoring system
     for (const item of currentQAData) {
       if (!item || !item.keywords || !Array.isArray(item.keywords)) {
         continue;
       }
       
-      let score = 0;
-      let matches = 0;
+      let totalScore = 0;
+      let exactMatches = 0;
+      let partialMatches = 0;
+      let fuzzyMatches = 0;
+      let keywordCount = item.keywords.length;
       
       for (const keyword of item.keywords) {
         const keywordLower = keyword.toLowerCase();
         
-        // Exact match or contains
-        if (lowerText.includes(keywordLower) || keywordLower.includes(lowerText)) {
-          matches += 2;
-          score += 1.0;
-        } 
-        // Fuzzy match
+        // Exact word match (highest priority)
+        if (lowerText === keywordLower) {
+          exactMatches++;
+          totalScore += 10.0;
+        }
+        // Exact phrase match in user text
+        else if (lowerText.includes(keywordLower) && keywordLower.length > 2) {
+          exactMatches++;
+          totalScore += 8.0;
+        }
+        // Keyword contains user text (for short queries)
+        else if (keywordLower.includes(lowerText) && lowerText.length > 2) {
+          partialMatches++;
+          totalScore += 6.0;
+        }
+        // Word-level matching
+        else if (hasWordMatch(lowerText, keywordLower)) {
+          partialMatches++;
+          totalScore += 4.0;
+        }
+        // Fuzzy match (lowest priority)
         else if (fuzzyMatch(lowerText, keyword)) {
-          matches++;
-          score += calculateSimilarity(lowerText, keywordLower);
+          fuzzyMatches++;
+          const similarity = calculateSimilarity(lowerText, keywordLower);
+          totalScore += similarity * 2.0;
         }
       }
       
-      if (matches > 0) {
-        const avgScore = score / Math.max(matches, 1);
-        if (avgScore > bestScore) {
-          bestScore = avgScore;
-          bestMatch = item.answer;
-        }
+      // Calculate final score with penalties for weak matches
+      let finalScore = 0;
+      if (exactMatches > 0) {
+        // Strong exact matches get high scores
+        finalScore = totalScore / keywordCount;
+      } else if (partialMatches > 0) {
+        // Partial matches get medium scores
+        finalScore = (totalScore / keywordCount) * 0.8;
+      } else if (fuzzyMatches > 0) {
+        // Fuzzy matches get lower scores
+        finalScore = (totalScore / keywordCount) * 0.5;
+      }
+      
+      // Bonus for multiple matches
+      const totalMatches = exactMatches + partialMatches + fuzzyMatches;
+      if (totalMatches > 1) {
+        finalScore *= (1 + (totalMatches - 1) * 0.2);
+      }
+      
+      if (finalScore > bestScore) {
+        bestScore = finalScore;
+        bestMatch = item.answer;
+        bestMatchInfo = {
+          exactMatches,
+          partialMatches,
+          fuzzyMatches,
+          totalScore,
+          finalScore,
+          keywordCount
+        };
       }
     }
     
-    console.log("🎯 Best score:", bestScore, "Match found:", !!bestMatch);
+    console.log("🎯 Best score:", bestScore, "Match info:", bestMatchInfo);
     
-    if (bestMatch && bestScore > 0.3) {
+    // Higher threshold for better accuracy
+    if (bestMatch && bestScore > 1.0) {
       return bestMatch;
     }
     
     return "🤔 I'm not sure about that. Try asking about:\n• **Courses** - programs offered\n• **Admissions** - how to apply\n• **Fees** - cost structure\n• **Hostel** - accommodation\n• **Placements** - career opportunities\n• **Campus** - facilities and location";
+  }
+
+  // Helper function for word-level matching
+  function hasWordMatch(text, keyword) {
+    const textWords = text.split(/\s+/);
+    const keywordWords = keyword.split(/\s+/);
+    
+    for (const textWord of textWords) {
+      for (const keywordWord of keywordWords) {
+        if (textWord.length > 2 && keywordWord.length > 2) {
+          if (textWord === keywordWord || 
+              textWord.includes(keywordWord) || 
+              keywordWord.includes(textWord)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 
   async function handleSend() {
@@ -331,20 +418,26 @@ if (window.bmsitChatbotLoaded) {
       if (toggleBg) toggleBg.classList.add('dark');
       if (toggleDot) {
         toggleDot.classList.add('moved');
-        toggleDot.textContent = '🌙';
+        const icon = toggleDot.querySelector('i');
+        if (icon) {
+          icon.className = 'fas fa-moon';
+        }
       }
       if (toggleInput) toggleInput.checked = true;
     } else {
       if (toggleBg) toggleBg.classList.remove('dark');
       if (toggleDot) {
         toggleDot.classList.remove('moved');
-        toggleDot.textContent = '☀️';
+        const icon = toggleDot.querySelector('i');
+        if (icon) {
+          icon.className = 'fas fa-sun';
+        }
       }
       if (toggleInput) toggleInput.checked = false;
     }
     
     localStorage.setItem("chat-theme", isDark ? "dark" : "light");
-    showNotification(`${isDark ? "🌙" : "☀️"} ${isDark ? "Dark" : "Light"} mode activated!`, "success");
+    showNotification(`${isDark ? "🌙" : "☀️"} ${isDark ? "Dark" : "Light"} mode activated!`, "info");
   }
 
   function showNotification(message, type = "info") {
@@ -474,7 +567,10 @@ if (window.bmsitChatbotLoaded) {
       if (toggleBg) toggleBg.classList.add('dark');
       if (toggleDot) {
         toggleDot.classList.add('moved');
-        toggleDot.textContent = '🌙';
+        const icon = toggleDot.querySelector('i');
+        if (icon) {
+          icon.className = 'fas fa-moon';
+        }
       }
       if (toggleInput) toggleInput.checked = true;
     }
@@ -534,7 +630,7 @@ if (window.bmsitChatbotLoaded) {
     recognition.maxAlternatives = 1;
     
     recognition.onstart = () => {
-      document.getElementById("mic-btn").style.background = '#ef4444';
+      document.getElementById("mic-btn").style.background = 'linear-gradient(to right, #dc2626, #b91c1c)';
       showNotification("🎤 Listening... Speak now!", "info");
     };
     
@@ -555,12 +651,12 @@ if (window.bmsitChatbotLoaded) {
     };
     
     recognition.onerror = (event) => {
-      document.getElementById("mic-btn").style.background = '#3b82f6';
+      document.getElementById("mic-btn").style.background = 'linear-gradient(to right, #34d399, #10b981)';
       showNotification(`Voice recognition error: ${event.error}`, "error");
     };
     
     recognition.onend = () => {
-      document.getElementById("mic-btn").style.background = '#3b82f6';
+      document.getElementById("mic-btn").style.background = 'linear-gradient(to right, #34d399, #10b981)';
     };
     
     recognition.start();
@@ -644,12 +740,60 @@ if (window.bmsitChatbotLoaded) {
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       // Wait a bit for QA data to load
-      setTimeout(initializeChatbot, 100);
+      setTimeout(() => {
+        initializeChatbot();
+        initializeQuickTopics();
+      }, 100);
     });
   } else {
     // Wait a bit for QA data to load
-    setTimeout(initializeChatbot, 100);
+    setTimeout(() => {
+      initializeChatbot();
+      initializeQuickTopics();
+    }, 100);
   }
+  
+  // Quick Topics Toggle Function
+  window.toggleQuickTopics = function() {
+    const optionsDiv = document.getElementById('quick-topics-options');
+    const arrow = document.getElementById('quick-topics-arrow');
+    
+    if (!optionsDiv || !arrow) return;
+    
+    const isExpanded = optionsDiv.style.maxHeight && optionsDiv.style.maxHeight !== '0px';
+    
+    if (isExpanded) {
+      // Collapse
+      optionsDiv.style.maxHeight = '0px';
+      optionsDiv.style.opacity = '0';
+      arrow.style.transform = 'rotate(180deg)';
+    } else {
+      // Expand
+      optionsDiv.style.maxHeight = optionsDiv.scrollHeight + 'px';
+      optionsDiv.style.opacity = '1';
+      arrow.style.transform = 'rotate(0deg)';
+      
+      // Recalculate height after a brief moment to ensure proper sizing
+      setTimeout(() => {
+        if (optionsDiv.style.maxHeight !== '0px') {
+          optionsDiv.style.maxHeight = optionsDiv.scrollHeight + 'px';
+        }
+      }, 50);
+    }
+  };
+  
+  // Initialize Quick Topics as expanded
+  window.initializeQuickTopics = function() {
+    const optionsDiv = document.getElementById('quick-topics-options');
+    const arrow = document.getElementById('quick-topics-arrow');
+    
+    if (optionsDiv && arrow) {
+      // Set initial expanded state
+      optionsDiv.style.maxHeight = optionsDiv.scrollHeight + 'px';
+      optionsDiv.style.opacity = '1';
+      arrow.style.transform = 'rotate(0deg)';
+    }
+  };
   
   console.log("✅ BMSIT&M Chatbot script loaded");
 }

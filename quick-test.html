@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Test - BMSIT Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
+        .test-item { margin: 15px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .query { font-weight: bold; color: #0066cc; margin-bottom: 10px; }
+        .result { background: #f9f9f9; padding: 10px; border-radius: 3px; white-space: pre-wrap; }
+        .score { color: #666; font-size: 0.9em; margin-top: 5px; }
+        button { background: #0066cc; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0052a3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 BMSIT&M Chatbot - Quick Test</h1>
+        <button onclick="runTests()">Run Tests</button>
+        <div id="results"></div>
+    </div>
+
+    <script src="qa-data.js"></script>
+    <script src="chatbot-fixed.js"></script>
+    <script>
+        function runTests() {
+            const testQueries = [
+                "Tell me about hostel facilities",
+                "How can I get admission?",
+                "What are the fees?",
+                "placement record",
+                "courses offered",
+                "about college",
+                "cse department",
+                "mca details",
+                "campus facilities"
+            ];
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<h2>Test Results:</h2>';
+
+            testQueries.forEach(query => {
+                // Simulate the chatbot's findAnswer function
+                const result = findAnswer ? findAnswer(query) : "Function not available";
+                
+                const testDiv = document.createElement('div');
+                testDiv.className = 'test-item';
+                
+                const preview = result.length > 200 ? result.substring(0, 200) + '...' : result;
+                
+                testDiv.innerHTML = `
+                    <div class="query">Query: "${query}"</div>
+                    <div class="result">${preview}</div>
+                `;
+                
+                resultsDiv.appendChild(testDiv);
+            });
+        }
+
+        // Auto-run tests when page loads
+        window.onload = () => {
+            setTimeout(runTests, 500);
+        };
+    </script>
+</body>
+</html>

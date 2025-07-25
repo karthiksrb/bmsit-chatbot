@@ -3,185 +3,189 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BMSIT&M Smart Chatbot</title>
+  <title>BMSIT&M Smart Assistant</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
-  <style>
-    :root {
-      --light-bg: #f4f4f5;
-      --dark-bg: #1e1e1e;
-      --light-text: #111827;
-      --dark-text: #f3f4f6;
-    }
-
-    body.dark {
-      background-color: var(--dark-bg);
-      color: var(--dark-text);
-    }
-    .dark .bg-white { background-color: var(--dark-bg); }
-    .dark .text-gray-700 { color: var(--dark-text); }
-    .dark .bg-gray-50, .dark .bg-gray-100 { background-color: #2a2a2a; }
-    .dark .bg-blue-100 { background-color: #1e40af; color: white; }
-    .dark .bg-gray-200 { background-color: #444; }
-    .dark .text-sm { color: white; }
-
-    /* Bot avatar styling */
-    .bot-avatar-img {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      object-fit: cover;
-    }
-
-    .typing-indicator {
-      display: flex;
-      align-items: center;
-      padding: 10px;
-    }
-    
-    .typing-dots {
-      display: flex;
-      gap: 4px;
-    }
-    
-    .typing-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background-color: #3b82f6;
-      animation: typing 1.4s infinite ease-in-out;
-    }
-    
-    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-    
-    @keyframes typing {
-      0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
-      40% { transform: scale(1); opacity: 1; }
-    }
-
-    .message {
-      animation: fadeIn 0.3s ease-in;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Simple Working Dark Mode Toggle */
-    #toggle-bg {
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-      transition: all 0.3s ease;
-    }
-
-    #toggle-bg.dark {
-      background: linear-gradient(135deg, #7c3aed, #5b21b6);
-    }
-
-    #toggle-dot {
-      transition: all 0.3s ease;
-    }
-
-    #toggle-dot.moved {
-      transform: translateX(28px);
-    }
-
-    .notification {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 12px 20px;
-      border-radius: 8px;
-      color: white;
-      font-weight: bold;
-      z-index: 1000;
-      animation: slideIn 0.3s ease-out;
-    }
-
-    .notification.success { background-color: #10b981; }
-    .notification.error { background-color: #ef4444; }
-    .notification.info { background-color: #3b82f6; }
-
-    @keyframes slideIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-  </style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="font-inter bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-slate-900 dark:to-indigo-950 min-h-screen">
 
-<div class="flex justify-center items-center w-full min-h-screen py-4 bg-gray-100 dark:bg-black">
-  <div class="w-full max-w-sm z-50 bg-white dark:bg-black rounded-xl shadow-2xl border border-gray-200 dark:border-white max-h-screen overflow-hidden">
+<!-- Background Pattern -->
+<div class="fixed inset-0 opacity-5 dark:opacity-10">
+  <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 opacity-20"></div>
+  <div class="absolute inset-0" style="background-image: radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);"></div>
+</div>
 
-    <!-- Header -->
-    <div class="flex items-center justify-between bg-blue-700 text-white p-3">
-      <div class="flex items-center space-x-2">
-        <img src="assets/logo.png" alt="BMSIT Logo" class="w-8 h-8 rounded-full" />
-        <div>
-          <h1 class="font-bold text-base">BMSIT&M Chatbot</h1>
-          <p class="text-xs">Smart Virtual Assistant</p>
-        </div>
-      </div>
-      <!-- Enhanced Dark Mode Toggle -->
-      <div class="flex items-center space-x-2">
-        <span class="text-xs text-gray-600 dark:text-gray-300">☀️</span>
-        <label class="relative inline-flex items-center cursor-pointer">
-          <input type="checkbox" id="dark-toggle" class="sr-only" onchange="toggleDark()" />
-          <!-- Toggle Background -->
-          <div id="toggle-bg" class="w-14 h-7 bg-blue-500 rounded-full shadow-inner relative transition-all duration-300 ease-in-out">
-            <!-- Toggle Dot -->
-            <div id="toggle-dot" class="absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow-md transition-all duration-300 ease-in-out flex items-center justify-center text-xs">
-              ☀️
-            </div>
+<div class="relative z-10 flex justify-center items-center w-full h-screen py-6 px-4">
+  <div class="w-full max-w-md h-full max-h-[600px] bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 dark:border-gray-700/30 overflow-hidden animate-fade-in flex flex-col">
+
+    <!-- Header with Glassmorphism Effect -->
+    <div class="relative bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 dark:from-blue-800 dark:via-indigo-800 dark:to-purple-800 text-white p-4 flex-shrink-0">
+      <!-- Animated Background -->
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-500/20 animate-pulse"></div>
+      
+      <div class="relative flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="relative">
+            <img src="assets/logo.png" alt="BMSIT Logo" class="w-12 h-12 rounded-full border-2 border-white/30 shadow-lg" />
+            <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
           </div>
-        </label>
-        <span class="text-xs text-gray-600 dark:text-gray-300">🌙</span>
+          <div>
+            <h1 class="font-bold text-lg tracking-tight">BMSIT&M Assistant</h1>
+            <p class="text-xs text-blue-100 flex items-center">
+              <i class="fas fa-robot mr-1"></i>
+              AI-Powered Virtual Guide
+            </p>
+          </div>
+        </div>
+        
+        <!-- Enhanced Dark Mode Toggle -->
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-sun text-xs text-yellow-300"></i>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="dark-toggle" class="sr-only" onchange="toggleDark()" />
+            <div id="toggle-bg" class="w-16 h-8 bg-white/20 rounded-full shadow-inner relative transition-all duration-500 ease-in-out backdrop-blur-sm border border-white/30">
+              <div id="toggle-dot" class="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-lg transition-all duration-500 ease-in-out flex items-center justify-center text-xs">
+                <i class="fas fa-sun text-yellow-500"></i>
+              </div>
+            </div>
+          </label>
+          <i class="fas fa-moon text-xs text-blue-200"></i>
+        </div>
+      </div>
+      
+      <!-- Status Bar -->
+      <div class="relative mt-3 flex items-center justify-between text-xs">
+        <div class="flex items-center space-x-4">
+          <span class="flex items-center text-green-300">
+            <i class="fas fa-circle text-green-400 mr-1 animate-pulse"></i>
+            Online
+          </span>
+          <span class="flex items-center text-blue-200">
+            <i class="fas fa-microphone mr-1"></i>
+            Voice Ready
+          </span>
+        </div>
+        <span class="text-blue-200">
+          <i class="fas fa-shield-alt mr-1"></i>
+          Secure
+        </span>
       </div>
     </div>
 
-    <!-- Voice I/O Info -->
-    <div class="flex items-center justify-end px-3 py-1">
-      <span class="mr-2 text-xs text-gray-600 dark:text-gray-300">🎤→🔊 Voice I/O</span>
-    </div>
-
-    <!-- Chat messages -->
-    <div id="chat-messages" class="p-3 space-y-2 overflow-y-auto h-80 bg-gray-50 dark:bg-gray-900 scroll-smooth">
-      <div class="flex items-start space-x-2 message">
-        <img src="assets/bot.png" alt="Bot" class="w-7 h-8 rounded-full object-cover" />
-        <div class="bg-blue-100 text-sm p-3 rounded-2xl bot-bubble">
-          👋 Hi! I'm your BMSIT Assistant. Ask me anything about the college - courses, admissions, fees, placements, hostel, or campus facilities!
+    <!-- Chat Messages with Enhanced Styling -->
+    <div id="chat-messages" class="p-4 space-y-4 overflow-y-auto flex-1 bg-gradient-to-b from-gray-50/50 to-white/50 dark:from-gray-800/50 dark:to-gray-900/50 scroll-smooth">
+      <div class="flex items-start space-x-3 message">
+        <div class="relative">
+          <img src="assets/bot.png" alt="Bot" class="w-10 h-10 rounded-full border-2 border-blue-200 dark:border-blue-600 shadow-md" />
+          <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border border-white"></div>
+        </div>
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/50 dark:to-indigo-900/50 text-sm p-4 rounded-2xl rounded-tl-md bot-bubble shadow-sm border border-blue-100 dark:border-blue-800 max-w-xs">
+          <div class="flex items-center mb-2">
+            <i class="fas fa-robot text-blue-500 mr-2"></i>
+            <span class="font-medium text-blue-700 dark:text-blue-300">BMSIT Assistant</span>
+          </div>
+          <p class="text-gray-700 dark:text-gray-200 leading-relaxed">
+            👋 Welcome! I'm your intelligent BMSIT&M guide. I can help you with courses, admissions, fees, placements, hostel information, and campus facilities. How can I assist you today?
+          </p>
         </div>
       </div>
     </div>
 
-    <!-- Quick Suggestions -->
-    <div class="grid grid-cols-2 gap-2 p-2 border-t border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-800" id="suggestions">
-      <button onclick="quickReply('courses')" class="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1.5 rounded-md font-medium">
-        📚 Courses
-      </button>
-      <button onclick="quickReply('admissions')" class="bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1.5 rounded-md font-medium">
-        🎓 Admissions
-      </button>
-      <button onclick="quickReply('fees')" class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1.5 rounded-md font-medium">
-        💰 Fees
-      </button>
-      <button onclick="quickReply('hostel')" class="bg-purple-500 hover:bg-purple-600 text-white text-xs px-3 py-1.5 rounded-md font-medium">
-        🏠 Hostel
-      </button>
-    </div>
-
-    <!-- Input -->
-    <div class="relative border-t p-2 dark:border-white">
-      <div class="flex items-center space-x-2">
-        <input type="text" id="user-input" placeholder="Ask a question..." class="flex-1 border rounded-full px-3 py-1 text-sm dark:bg-gray-800 dark:text-white" />
-        <button onclick="handleSend()" class="bg-blue-500 text-white px-3 py-1 text-sm rounded-full hover:bg-blue-600">Send</button>
-        <button id="mic-btn" onclick="toggleVoiceInput()" class="bg-blue-500 text-white p-1 rounded-full text-sm hover:bg-blue-600">🎤</button>
-        <button onclick="exportChat()" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded-full text-sm">📑</button>
+    <!-- Enhanced Quick Suggestions -->
+    <div class="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-t border-gray-200/50 dark:border-gray-700/50 flex-shrink-0">
+      <!-- Quick Topics Toggle Button -->
+      <div class="p-3">
+        <button onclick="toggleQuickTopics()" class="w-full flex items-center justify-between text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+          <div class="flex items-center">
+            <i class="fas fa-lightbulb mr-2" style="font-size: 10px;"></i>
+            Quick Topics
+          </div>
+          <i id="quick-topics-arrow" class="fas fa-chevron-up text-xs transition-transform duration-300"></i>
+        </button>
+      </div>
+      
+      <!-- Collapsible Quick Topics Options -->
+      <div id="quick-topics-options" class="overflow-hidden transition-all duration-300 ease-in-out">
+        <div class="px-3 pb-3">
+          <div class="grid grid-cols-2 gap-1.5" id="suggestions">
+            <button onclick="quickReply('courses')" class="group bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-md">
+              <i class="fas fa-graduation-cap block text-white"></i>
+              Courses
+            </button>
+            <button onclick="quickReply('admissions')" class="group bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-md">
+              <i class="fas fa-user-graduate block text-white"></i>
+              Admissions
+            </button>
+            <button onclick="quickReply('fees')" class="group bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-md">
+              <i class="fas fa-rupee-sign block text-white"></i>
+              Fees
+            </button>
+            <button onclick="quickReply('hostel')" class="group bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-md">
+              <i class="fas fa-home block text-white"></i>
+              Hostel
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
+    <!-- Enhanced Input Section -->
+    <div class="p-4 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm border-t border-gray-200/50 dark:border-gray-700/50 flex-shrink-0">
+      <div class="flex items-center space-x-2">
+        <div class="flex-1 relative">
+          <input 
+            type="text" 
+            id="user-input" 
+            placeholder="Type your question here..." 
+            class="w-full bg-gray-50/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-600 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
+          />
+          <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <i class="fas fa-paper-plane text-xs"></i>
+          </div>
+        </div>
+        
+        <button 
+          onclick="handleSend()" 
+          class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white p-3 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg group"
+        >
+          <i class="fas fa-paper-plane group-hover:translate-x-0.5 transition-transform duration-200"></i>
+        </button>
+        
+        <button 
+          id="mic-btn" 
+          onclick="toggleVoiceInput()" 
+          class="bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white p-3 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg group"
+        >
+          <i class="fas fa-microphone group-hover:scale-110 transition-transform duration-200"></i>
+        </button>
+        
+        <button 
+          onclick="exportChat()" 
+          class="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white p-3 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg group"
+        >
+          <i class="fas fa-download group-hover:translate-y-0.5 transition-transform duration-200"></i>
+        </button>
+      </div>
+      
+      <!-- Input Helper Text -->
+      <div class="mt-2 text-xs text-gray-500 dark:text-gray-400 text-center">
+        <i class="fas fa-info-circle mr-1"></i>
+        Press Enter to send • Click mic for voice input
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Loading Overlay -->
+<div id="loading-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center">
+  <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-2xl">
+    <div class="flex items-center space-x-3">
+      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
+      <span class="text-gray-700 dark:text-gray-200">Processing...</span>
+    </div>
   </div>
 </div>
 
