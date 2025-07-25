@@ -175,34 +175,51 @@ if (window.bmsitChatbotLoaded) {
     const lowerText = text.toLowerCase();
     const lowerKeyword = keyword.toLowerCase();
     
+    // Direct inclusion check
     if (lowerText.includes(lowerKeyword) || lowerKeyword.includes(lowerText)) return true;
     
+    // Enhanced variations with common misspellings
     const variations = {
-      'cse': ['computer science', 'cs', 'comp sci', 'computer science engineering'],
-      'ise': ['information science', 'is', 'info sci', 'information science engineering'],
-      'ece': ['electronics', 'communication', 'ec', 'electronics communication'],
-      'fees': ['fee', 'cost', 'price', 'tuition', 'charges', 'amount', 'money'],
-      'hostel': ['accommodation', 'residence', 'housing', 'stay', 'room'],
-      'placement': ['job', 'career', 'recruitment', 'company', 'hiring', 'employment'],
-      'admission': ['admissions', 'join', 'entry', 'enroll', 'apply']
+      'cse': ['computer science', 'cs', 'comp sci', 'computer science engineering', 'compsci', 'comp science'],
+      'ise': ['information science', 'is', 'info sci', 'information science engineering', 'infosci', 'info science'],
+      'ece': ['electronics', 'communication', 'ec', 'electronics communication', 'elec comm', 'electronics comm'],
+      'eee': ['electrical', 'electronics', 'electrical electronics', 'elec', 'electrical engg'],
+      'mech': ['mechanical', 'mechanical engineering', 'mech engg', 'mechanics'],
+      'civil': ['civil engineering', 'civil engg', 'construction'],
+      'ai': ['artificial intelligence', 'ai ml', 'aiml', 'machine learning', 'ai&ml'],
+      'mca': ['master computer applications', 'computer applications', 'applications', 'mca course'],
+      'mba': ['master business administration', 'business administration', 'management'],
+      'mtech': ['master technology', 'm tech', 'masters', 'postgraduate'],
+      'fees': ['fee', 'cost', 'price', 'tuition', 'charges', 'amount', 'money', 'expense'],
+      'hostel': ['accommodation', 'residence', 'housing', 'stay', 'room', 'boarding'],
+      'placement': ['job', 'career', 'recruitment', 'company', 'hiring', 'employment', 'placements'],
+      'admission': ['admissions', 'join', 'entry', 'enroll', 'apply', 'application', 'joining'],
+      'campus': ['college', 'institute', 'university', 'campus life', 'facilities'],
+      'library': ['books', 'study', 'reading', 'lib'],
+      'sports': ['games', 'athletics', 'physical', 'gym', 'fitness'],
+      'research': ['r&d', 'innovation', 'projects', 'publications']
     };
     
+    // Check variations
     for (const [key, values] of Object.entries(variations)) {
-      if (lowerKeyword.includes(key) || key.includes(lowerKeyword)) {
-        if (values.some(v => lowerText.includes(v) || v.includes(lowerText))) {
+      if (lowerKeyword.includes(key) || key.includes(lowerKeyword) || 
+          lowerText.includes(key) || key.includes(lowerText)) {
+        if (values.some(v => lowerText.includes(v) || v.includes(lowerText) || 
+                            lowerKeyword.includes(v) || v.includes(lowerKeyword))) {
           return true;
         }
       }
     }
     
-    const textWords = lowerText.split(' ');
-    const keywordWords = lowerKeyword.split(' ');
+    // Word-level similarity check with higher threshold
+    const textWords = lowerText.split(/\s+/);
+    const keywordWords = lowerKeyword.split(/\s+/);
     
     for (const textWord of textWords) {
       for (const keywordWord of keywordWords) {
-        if (textWord.length > 2 && keywordWord.length > 2) {
+        if (textWord.length > 3 && keywordWord.length > 3) {
           const similarity = calculateSimilarity(textWord, keywordWord);
-          if (similarity > 0.75) {
+          if (similarity > 0.8) { // Higher threshold for better accuracy
             return true;
           }
         }
@@ -216,6 +233,7 @@ if (window.bmsitChatbotLoaded) {
     const lowerText = userText.toLowerCase().trim();
     let bestMatch = null;
     let bestScore = 0;
+    let bestMatchInfo = null;
     
     // Get current QA data
     const currentQAData = getQAData();
@@ -230,45 +248,109 @@ if (window.bmsitChatbotLoaded) {
       return "⚠️ Sorry, I'm having trouble accessing my knowledge base. Please refresh the page and try again.\n\n**Debug Info:** QA Data not available - check browser console for details.";
     }
     
+    // Enhanced scoring system
     for (const item of currentQAData) {
       if (!item || !item.keywords || !Array.isArray(item.keywords)) {
         continue;
       }
       
-      let score = 0;
-      let matches = 0;
+      let totalScore = 0;
+      let exactMatches = 0;
+      let partialMatches = 0;
+      let fuzzyMatches = 0;
+      let keywordCount = item.keywords.length;
       
       for (const keyword of item.keywords) {
         const keywordLower = keyword.toLowerCase();
         
-        // Exact match or contains
-        if (lowerText.includes(keywordLower) || keywordLower.includes(lowerText)) {
-          matches += 2;
-          score += 1.0;
-        } 
-        // Fuzzy match
+        // Exact word match (highest priority)
+        if (lowerText === keywordLower) {
+          exactMatches++;
+          totalScore += 10.0;
+        }
+        // Exact phrase match in user text
+        else if (lowerText.includes(keywordLower) && keywordLower.length > 2) {
+          exactMatches++;
+          totalScore += 8.0;
+        }
+        // Keyword contains user text (for short queries)
+        else if (keywordLower.includes(lowerText) && lowerText.length > 2) {
+          partialMatches++;
+          totalScore += 6.0;
+        }
+        // Word-level matching
+        else if (hasWordMatch(lowerText, keywordLower)) {
+          partialMatches++;
+          totalScore += 4.0;
+        }
+        // Fuzzy match (lowest priority)
         else if (fuzzyMatch(lowerText, keyword)) {
-          matches++;
-          score += calculateSimilarity(lowerText, keywordLower);
+          fuzzyMatches++;
+          const similarity = calculateSimilarity(lowerText, keywordLower);
+          totalScore += similarity * 2.0;
         }
       }
       
-      if (matches > 0) {
-        const avgScore = score / Math.max(matches, 1);
-        if (avgScore > bestScore) {
-          bestScore = avgScore;
-          bestMatch = item.answer;
-        }
+      // Calculate final score with penalties for weak matches
+      let finalScore = 0;
+      if (exactMatches > 0) {
+        // Strong exact matches get high scores
+        finalScore = totalScore / keywordCount;
+      } else if (partialMatches > 0) {
+        // Partial matches get medium scores
+        finalScore = (totalScore / keywordCount) * 0.8;
+      } else if (fuzzyMatches > 0) {
+        // Fuzzy matches get lower scores
+        finalScore = (totalScore / keywordCount) * 0.5;
+      }
+      
+      // Bonus for multiple matches
+      const totalMatches = exactMatches + partialMatches + fuzzyMatches;
+      if (totalMatches > 1) {
+        finalScore *= (1 + (totalMatches - 1) * 0.2);
+      }
+      
+      if (finalScore > bestScore) {
+        bestScore = finalScore;
+        bestMatch = item.answer;
+        bestMatchInfo = {
+          exactMatches,
+          partialMatches,
+          fuzzyMatches,
+          totalScore,
+          finalScore,
+          keywordCount
+        };
       }
     }
     
-    console.log("🎯 Best score:", bestScore, "Match found:", !!bestMatch);
+    console.log("🎯 Best score:", bestScore, "Match info:", bestMatchInfo);
     
-    if (bestMatch && bestScore > 0.3) {
+    // Higher threshold for better accuracy
+    if (bestMatch && bestScore > 1.0) {
       return bestMatch;
     }
     
     return "🤔 I'm not sure about that. Try asking about:\n• **Courses** - programs offered\n• **Admissions** - how to apply\n• **Fees** - cost structure\n• **Hostel** - accommodation\n• **Placements** - career opportunities\n• **Campus** - facilities and location";
+  }
+
+  // Helper function for word-level matching
+  function hasWordMatch(text, keyword) {
+    const textWords = text.split(/\s+/);
+    const keywordWords = keyword.split(/\s+/);
+    
+    for (const textWord of textWords) {
+      for (const keywordWord of keywordWords) {
+        if (textWord.length > 2 && keywordWord.length > 2) {
+          if (textWord === keywordWord || 
+              textWord.includes(keywordWord) || 
+              keywordWord.includes(textWord)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 
   async function handleSend() {
